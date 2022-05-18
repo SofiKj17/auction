@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>by.grsu.edu</groupId>
+	<artifactId>auction</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>auction</name>
+
+	<properties>
+		<java.version>8</java.version>
+		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+		<maven-compiler.source>1.8</maven-compiler.source>
+		<maven-compiler.target>1.8</maven-compiler.target>
+		<jackson-datatype.version>2.11.3</jackson-datatype.version>
+		<liquibase-core.version>4.1.1</liquibase-core.version>
+		<spring-context.version>5.2.10.RELEASE</spring-context.version>
+		<spring-boot-starter-data-jpa.version>2.3.5.RELEASE</spring-boot-starter-data-jpa.version>
+		<h2.version>1.4.200</h2.version>
+		<spring-boot-starter.version>2.6.7</spring-boot-starter.version>
+
+		<openapi.generator.version>4.3.1</openapi.generator.version>
+
+		<jackson-annotations.version>2.11.3</jackson-annotations.version>
+		<swagger-annotations.version>1.6.2</swagger-annotations.version>
+		<jackson-databind-nullable.version>0.2.1</jackson-databind-nullable.version>
+		<validation-api.version>2.0.1.Final</validation-api.version>
+		<springfox-version>2.9.2</springfox-version>
+		<jackson-datatype.version>2.11.3</jackson-datatype.version>
+		<feign-version>10.11</feign-version>
+		<feign-form-version>3.8.0</feign-form-version>
+		<oltu-version>1.0.1</oltu-version>
+		<junit-version>4.13.1</junit-version>
+		<mapstruct-processor.version>1.4.1.Final</mapstruct-processor.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.3.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<version>${spring-boot-starter.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<version>2.6.7</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+			<version>4.9.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+			<version>${jackson-datatype.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>${jackson-annotations.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-annotations</artifactId>
+			<version>${swagger-annotations.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openapitools</groupId>
+			<artifactId>jackson-databind-nullable</artifactId>
+			<version>${jackson-databind-nullable.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>${validation-api.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${springfox-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${springfox-version}</version>
+		</dependency>
+
+	</dependencies>
+
+</project>
