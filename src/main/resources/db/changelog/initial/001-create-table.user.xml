@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+		xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
+
+	<changeSet id="create-table.user" author="sofikj" dbms="postgresql">
+		<sql splitStatements="false">
+			create table "user"
+			(
+				id                BIGINT        not null,
+				name              VARCHAR(256)  not null,
+				last_name         VARCHAR(256)  not null,
+				phone_number      VARCHAR(12)   not null,
+				email             VARCHAR(256)  not null,
+				password_hash     VARCHAR(1256) not null,
+				registration_date TIMESTAMP     not null,
+				nick_name         VARCHAR(256)  null
+			);
+
+			alter table "user"
+				add constraint PK_USER primary key (id);
+
+			create unique index user_PK on "user" (id);
+		</sql>
+	</changeSet>
+
+</databaseChangeLog>

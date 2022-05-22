@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+		xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
+
+	<changeSet id="create-table.user-photo" author="sofikj" dbms="postgresql">
+		<sql splitStatements="false">
+			create table user_photo
+			(
+				id             BIGINT        not null,
+				use_id         BIGINT        not null,
+				reference      VARCHAR(2256) not null,
+				reference_type VARCHAR(256)  not null
+			);
+
+			alter table user_photo
+				add constraint PK_USER_PHOTO primary key (use_id, id);
+
+			create unique index user_photo_PK on user_photo (use_id, id);
+
+			create index user_to_photo_FK on user_photo (use_id);
+
+			alter table user_photo
+				add constraint FK_USER_PHOTO_TO_USER foreign key (use_id)
+					references "user" (id)
+					on delete restrict on update restrict;
+		</sql>
+	</changeSet>
+
+</databaseChangeLog>
+

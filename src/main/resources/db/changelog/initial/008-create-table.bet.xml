@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+		xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
+
+	<changeSet id="create-table.bet" author="sofikj" dbms="postgresql">
+		<sql splitStatements="false">
+			create table bet
+			(
+				id      BIGINT not null,
+				lot_id  BIGINT not null,
+				user_id BIGINT not null,
+				value   MONEY  not null,
+				"time"  DATE   not null
+			);
+
+			alter table bet
+				add constraint PK_BET primary key (id);
+
+			create unique index bet_PK on bet (id);
+
+			create index user_to_bet_FK on bet (user_id);
+
+			create index lot_to_bet_FK on bet (lot_id);
+
+			alter table bet
+				add constraint FK_BET_TO_LOT foreign key (lot_id)
+					references lot (id)
+					on delete restrict on update restrict;
+
+			alter table bet
+				add constraint FK_BET_TO_USER foreign key (user_id)
+					references "user" (id)
+					on delete restrict on update restrict;
+		</sql>
+	</changeSet>
+
+</databaseChangeLog>
+

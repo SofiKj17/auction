@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+		xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
+
+	<changeSet id="create-table.lot" author="sofikj" dbms="postgresql">
+		<sql splitStatements="false">
+			create table lot
+			(
+				id          BIGINT       not null,
+				category_id BIGINT       not null,
+				owner_id    BIGINT       not null,
+				name        VARCHAR(256) not null,
+				description TEXT         null,
+				start_price MONEY        not null,
+				blits_price MONEY        null,
+				start_date  DATE         not null,
+				end_date    DATE         not null,
+				status      VARCHAR(256) not null
+			);
+
+			alter table lot
+				add constraint PK_LOT primary key (id);
+
+			create unique index lot_PK on lot (id);
+
+			create index owner_to_lot_FK on lot (owner_id);
+
+			create index lot_to_category_FK on lot (category_id);
+
+			alter table lot
+				add constraint FK_LOT_TO_CATEGORY foreign key (category_id)
+					references category (id)
+					on delete restrict on update restrict;
+
+			alter table lot
+				add constraint FK_LOT_TO_OWNER foreign key (owner_id)
+					references "user" (id)
+					on delete restrict on update restrict;
+		</sql>
+	</changeSet>
+
+</databaseChangeLog>
+

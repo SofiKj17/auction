@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>by.grsu.edu</groupId>
 	<artifactId>auction</artifactId>
@@ -8,6 +8,7 @@
 	<name>auction</name>
 
 	<properties>
+		<!--		OLD PROPERTIES-->
 		<java.version>8</java.version>
 		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
 		<maven-compiler.source>1.8</maven-compiler.source>
@@ -17,7 +18,6 @@
 		<spring-context.version>5.2.10.RELEASE</spring-context.version>
 		<spring-boot-starter-data-jpa.version>2.3.5.RELEASE</spring-boot-starter-data-jpa.version>
 		<h2.version>1.4.200</h2.version>
-		<spring-boot-starter.version>2.6.7</spring-boot-starter.version>
 
 		<openapi.generator.version>4.3.1</openapi.generator.version>
 
@@ -32,14 +32,33 @@
 		<oltu-version>1.0.1</oltu-version>
 		<junit-version>4.13.1</junit-version>
 		<mapstruct-processor.version>1.4.1.Final</mapstruct-processor.version>
+
+		<!--		NEW PROPERTIES-->
+		<postgresql.version>42.3.4</postgresql.version>
+		<spring-boot-starter.version>2.7.0</spring-boot-starter.version>
+		<liquibase.version>4.10.0</liquibase.version>
 	</properties>
 
 	<dependencies>
+		<!--		NEW-->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.3.4</version>
+			<version>${postgresql.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+			<version>${liquibase.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-maven-plugin</artifactId>
+			<version>${liquibase.version}</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -49,15 +68,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
-			<version>2.6.7</version>
+			<version>${spring-boot-starter.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.liquibase</groupId>
-			<artifactId>liquibase-core</artifactId>
-			<version>4.9.1</version>
-		</dependency>
 
+		<!--OLD-->
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jsr310</artifactId>
@@ -95,5 +110,20 @@
 		</dependency>
 
 	</dependencies>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-maven-plugin</artifactId>
+				<version>${liquibase.version}</version>
+				<configuration>
+					<propertyFile>src/main/resources/liquibase.properties</propertyFile>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 
 </project>

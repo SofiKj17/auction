@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+		xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
+
+	<changeSet id="create-table.adress" author="sofikj" dbms="postgresql">
+		<sql splitStatements="false">
+			create table adress
+			(
+				id           BIGINT       not null,
+				use_id       BIGINT       not null,
+				country      VARCHAR(256) not null,
+				city         VARCHAR(256) not null,
+				post_code    VARCHAR(256) not null,
+				street_name  VARCHAR(256) not null,
+				house_number VARCHAR(256) not null,
+				flat_number  VARCHAR(256) not null
+			);
+
+			alter table adress
+				add constraint PK_ADRESS primary key (id);
+
+			create unique index adress_PK on adress (id);
+
+			create index user_to_adress_FK on adress (use_id);
+
+			alter table adress
+				add constraint FK_ADRESS_TO_USER foreign key (use_id)
+					references "user" (id)
+					on delete restrict on update restrict;
+		</sql>
+	</changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+		xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
+
+	<changeSet id="create-table.category" author="sofikj" dbms="postgresql">
+		<sql splitStatements="false">
+			create table category
+			(
+				id          BIGINT       not null,
+				category_id BIGINT       null,
+				name        VARCHAR(256) not null
+			);
+
+			alter table category
+				add constraint PK_CATEGORY primary key (id);
+
+			create unique index category_PK on category (id);
+
+			create index category_to_subcategory_FK on category (category_id);
+
+			alter table category
+				add constraint FK_CATEGORY_TO_SUBCATEGORY foreign key (category_id)
+					references category (id)
+					on delete restrict on update restrict;
+		</sql>
+	</changeSet>
+
+</databaseChangeLog>
+

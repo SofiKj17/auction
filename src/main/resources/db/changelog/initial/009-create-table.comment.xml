@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+		xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
+
+	<changeSet id="create-table.comment" author="sofikj" dbms="postgresql">
+		<sql splitStatements="false">
+			create table comment
+			(
+				id         BIGINT        not null,
+				lot_id     BIGINT        not null,
+				user_id    BIGINT        not null,
+				comment_id BIGINT        null,
+				text       VARCHAR(2256) not null
+			);
+
+			alter table comment
+				add constraint PK_COMMENT primary key (id);
+
+			create unique index comment_PK on comment (id);
+
+			create index user_to_comment_FK on comment (user_id);
+
+			create index lot_to_comments_FK on comment (lot_id);
+
+			create index repliers_FK on comment (comment_id);
+
+			alter table comment
+				add constraint FK_COMMENT_TO_LOT foreign key (lot_id)
+					references lot (id)
+					on delete restrict on update restrict;
+
+			alter table comment
+				add constraint FK_COMMENT_REPLIERS_COMMENT foreign key (comment_id)
+					references comment (id)
+					on delete restrict on update restrict;
+
+			alter table comment
+				add constraint FK_COMMENT_TO_USER foreign key (user_id)
+					references "user" (id)
+					on delete restrict on update restrict;
+		</sql>
+	</changeSet>
+
+</databaseChangeLog>
+
