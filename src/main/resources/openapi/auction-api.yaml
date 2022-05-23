@@ -1,0 +1,44 @@
+openapi: 3.0.3
+info:
+  title: Auction API
+  description: RestAPI for Auction
+  contact:
+    name: 'The head developer: SojiKJ'
+  version: 1.0.0
+
+paths:
+  /lot:
+    get:
+      description: Returns all lots.
+      operationId: findAllLots
+      responses:
+        200:
+          description: All lots have been loaded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Lot'
+
+components:
+  schemas:
+    Lot:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        description:
+          type: string
+        startPrice:
+          type: string
+        blitsPrice:
+          type: string
+        startDate:
+          type: string
+        endDate:
+          type: string
+        status:
+          type: string

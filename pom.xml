@@ -125,10 +125,45 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.mapstruct</groupId>
+							<artifactId>mapstruct-processor</artifactId>
+							<version>1.2.0.Final</version>
+						</path>
+					</annotationProcessorPaths>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<version>5.0.1</version>
+				<executions>
+					<execution>
+						<id>generate-document-server-api</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<generatorName>spring</generatorName>
+							<inputSpec>${project.basedir}/src/main/resources/openapi/auction-api.yaml</inputSpec>
+							<modelNameSuffix>Dto</modelNameSuffix>
+							<configOptions>
+								<dateLibrary>java8</dateLibrary>
+								<delegatePattern>true</delegatePattern>
+								<basePackage>by.grsu.edu.auction</basePackage>
+								<apiPackage>by.grsu.edu.auction.api</apiPackage>
+								<modelPackage>by.grsu.edu.auction.model</modelPackage>
+								<configPackage>by.grsu.edu.auction.config</configPackage>
+							</configOptions>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
