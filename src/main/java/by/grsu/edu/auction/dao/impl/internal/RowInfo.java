@@ -9,6 +9,9 @@ class RowInfo
 	private Method getter;
 	private Method setter;
 	private Class<?> javaType;
+	private Boolean isId;
+	private Boolean enumerated;
+	private Class<?> dbType;
 
 	RowInfo(String rowName, String propertyName, Method getter, Method setter, Class<?> javaType)
 	{
@@ -59,7 +62,7 @@ class RowInfo
 		this.setter = setter;
 	}
 
-	public Class<?> getJavaType()
+	public Class getJavaType()
 	{
 		return javaType;
 	}
@@ -67,5 +70,35 @@ class RowInfo
 	public void setJavaType(Class<?> javaType)
 	{
 		this.javaType = javaType;
+	}
+
+	public Boolean isId()
+	{
+		return isId;
+	}
+
+	public void setIsId(Boolean id)
+	{
+		isId = id;
+	}
+
+	public Boolean isEnumerated()
+	{
+		return enumerated;
+	}
+
+	public void setEnumerated(Boolean enumerated)
+	{
+		this.enumerated = enumerated;
+	}
+
+	public Class<?> getDbType()
+	{
+		return dbType;
+	}
+
+	public void setDbType(Class<?> dbType)
+	{
+		this.dbType = dbType;
 	}
 }

@@ -6,6 +6,10 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.postgresql.util.PGmoney;
+
+import by.grsu.edu.auction.dao.impl.internal.annotations.DBType;
+
 @Table(name = "bet")
 public class BetEntity
 {
@@ -16,8 +20,9 @@ public class BetEntity
 	private Long lotId;
 	@Column(name = "user_id")
 	private Long userId;
-	@Column(name = "money")
-	private String money;
+	@Column(name = "value")
+	@DBType(PGmoney.class)
+	private double value;
 	@Column(name = "time")
 	private Date time;
 
@@ -51,14 +56,14 @@ public class BetEntity
 		this.userId = userId;
 	}
 
-	public String getMoney()
+	public double getValue()
 	{
-		return money;
+		return value;
 	}
 
-	public void setMoney(String money)
+	public void setValue(double value)
 	{
-		this.money = money;
+		this.value = value;
 	}
 
 	public Date getTime()

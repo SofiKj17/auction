@@ -42,5 +42,43 @@
 		</sql>
 	</changeSet>
 
+	<changeSet id="add-check-constraint.lot-table.end-date-is-bigger-then-start-date" author="sofikj" dbms="postgresql">
+		<sql>
+			alter table lot
+				add constraint lot_end_date_is_bigger_then_start_date
+					check ( end_date > start_date )
+		</sql>
+	</changeSet>
+
+	<changeSet id="add-check-constraint.lot-table.blits-price-is-bigger-then-max-bet-value" author="sofikj" dbms="postgresql">
+		<sql splitStatements="false">
+			create or replace
+				function find_max_bet_of_the_lot(lotId bigint)
+			    returns money
+			as
+			$$
+			declare
+				res money;
+			begin
+				select MAX(b.value)
+				into res
+				from bet b
+				where b.lot_id = lotId;
+
+				if res is null
+				then
+					return 0;
+				else
+					return res;
+				end if;
+			end;
+			$$ language plpgsql;
+
+			alter table lot
+				add constraint lot_blits_price_is_bigger_then_max_bet_value
+					check ( blits_price > find_max_bet_of_the_lot(id));
+		</sql>
+	</changeSet>
+
 </databaseChangeLog>
 

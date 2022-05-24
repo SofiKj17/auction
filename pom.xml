@@ -30,13 +30,13 @@
 		<feign-form-version>3.8.0</feign-form-version>
 		<oltu-version>1.0.1</oltu-version>
 		<junit-version>4.13.1</junit-version>
-		<mapstruct-processor.version>1.4.1.Final</mapstruct-processor.version>
 
 		<!--		NEW PROPERTIES-->
 		<java.version>8</java.version>
 		<postgresql.version>42.3.4</postgresql.version>
 		<spring-boot-starter.version>2.7.0</spring-boot-starter.version>
 		<liquibase.version>4.10.0</liquibase.version>
+		<mapstruct.version>1.4.2.Final</mapstruct.version>
 	</properties>
 
 	<dependencies>
@@ -102,13 +102,24 @@
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
 			<version>${springfox-version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.mapstruct</groupId>
+					<artifactId>mapstruct</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>${springfox-version}</version>
 		</dependency>
-
+		<!-- https://mvnrepository.com/artifact/org.mapstruct/mapstruct -->
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct</artifactId>
+			<version>${mapstruct.version}</version>
+		</dependency>
 	</dependencies>
 
 
@@ -133,7 +144,7 @@
 						<path>
 							<groupId>org.mapstruct</groupId>
 							<artifactId>mapstruct-processor</artifactId>
-							<version>1.2.0.Final</version>
+							<version>${mapstruct.version}</version>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>

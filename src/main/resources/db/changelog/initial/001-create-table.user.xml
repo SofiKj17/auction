@@ -26,4 +26,11 @@
 		</sql>
 	</changeSet>
 
+	<changeSet id="create-constraint.user-unique-email" author="sofikj" dbms="postgresql">
+		<sql>
+			alter table "user"
+				add constraint unique_user_email UNIQUE (email);
+		</sql>
+	</changeSet>
+
 </databaseChangeLog>

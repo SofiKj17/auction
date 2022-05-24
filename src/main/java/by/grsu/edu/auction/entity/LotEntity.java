@@ -1,10 +1,15 @@
 package by.grsu.edu.auction.entity;
 
-import java.util.Date;
+import java.sql.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.postgresql.util.PGmoney;
+
+import by.grsu.edu.auction.dao.impl.internal.annotations.DBType;
 
 @Table(name = "lot")
 public class LotEntity
@@ -21,14 +26,17 @@ public class LotEntity
 	@Column(name = "description")
 	private String description;
 	@Column(name = "start_price")
-	private String startPrice;
+	@DBType(PGmoney.class)
+	private double startPrice;
 	@Column(name = "blits_price")
-	private String blitsPrice;
+	@DBType(PGmoney.class)
+	private double blitsPrice;
 	@Column(name = "start_date")
 	private Date startDate;
 	@Column(name = "end_date")
 	private Date endDate;
 	@Column(name = "status")
+	@Enumerated
 	private LotStatus status;
 
 	public Long getId()
@@ -81,22 +89,22 @@ public class LotEntity
 		this.description = description;
 	}
 
-	public String getStartPrice()
+	public double getStartPrice()
 	{
 		return startPrice;
 	}
 
-	public void setStartPrice(String startPrice)
+	public void setStartPrice(double startPrice)
 	{
 		this.startPrice = startPrice;
 	}
 
-	public String getBlitsPrice()
+	public double getBlitsPrice()
 	{
 		return blitsPrice;
 	}
 
-	public void setBlitsPrice(String blitsPrice)
+	public void setBlitsPrice(double blitsPrice)
 	{
 		this.blitsPrice = blitsPrice;
 	}

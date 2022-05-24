@@ -7,6 +7,46 @@ info:
   version: 1.0.0
 
 paths:
+  /auth:
+    post:
+      description: Authenticate users in the system and return access token.
+      operationId: authenticate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Auth'
+      responses:
+        200:
+          description: User successfully authenticated.
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /lot/findLotsByUserIdAndHimMaxBet:
+    get:
+      description: findLotsByUserIdAndHimMaxBet
+      operationId: findLotsByUserIdAndHimMaxBet
+      parameters:
+        - description: identity of deleted item.
+          in: query
+          name: userId
+          required: true
+          schema:
+            type: long
+      responses:
+        200:
+          description: All lots have been loaded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Lot'
+
+
   /lot:
     get:
       description: Returns all lots.
@@ -20,25 +60,164 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Lot'
+    post:
+      description: Creates new lot.
+      operationId: createLot
+      parameters:
+        - description: Authentication token.
+          in: header
+          name: custom-auth-token
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lot'
+      responses:
+        200:
+          description: Lot has been created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lot'
+    put:
+      description: update lot
+      operationId: updateLot
+      parameters:
+        - description: Authentication token.
+          in: header
+          name: custom-auth-token
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateLot'
+      responses:
+        200:
+          description: Lot has been created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lot'
+    delete:
+      description: delete lot by id
+      operationId: deleteLotById
+      parameters:
+        - description: Authentication token.
+          in: header
+          name: custom-auth-token
+          required: true
+          schema:
+            type: string
+        - description: identity of deleted item.
+          in: query
+          name: lotId
+          required: true
+          schema:
+            type: long
+      responses:
+        200:
+          description: Lot has been deleted.
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /bet:
+    post:
+      description: make a bet
+      operationId: makeABet
+      parameters:
+        - description: Authentication token.
+          in: header
+          name: custom-auth-token
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MakeABet'
+      responses:
+        200:
+          description: Lot has been deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bet'
+
 
 components:
   schemas:
+    Auth:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+
     Lot:
       type: object
       properties:
         id:
-          type: number
+          type: long
+        categoryId:
+          type: long
         name:
           type: string
         description:
           type: string
         startPrice:
-          type: string
+          type: double
         blitsPrice:
-          type: string
+          type: double
         startDate:
           type: string
         endDate:
           type: string
         status:
+          type: string
+
+    UpdateLot:
+      type: object
+      properties:
+        id:
+          type: long
+        categoryId:
+          type: long
+        blitsPrice:
+          type: double
+        endDate:
+          type: string
+
+    MakeABet:
+      type: object
+      properties:
+        lotId:
+          type: long
+        value:
+          type: double
+
+    Bet:
+      type: object
+      properties:
+        id:
+          type: long
+        lotId:
+          type: long
+        userId:
+          type: long
+        value:
+          type: double
+        time:
           type: string

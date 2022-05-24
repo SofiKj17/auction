@@ -37,5 +37,13 @@
 		</sql>
 	</changeSet>
 
+	<changeSet id="create-check-constraint.bet-table.new-bet-should-be-bigger-then-previous" author="sofikj" dbms="postgresql">
+		<sql>
+			alter table bet
+				add constraint lot_blits_price_is_bigger_then_max_bet_value
+					check ( value > find_max_bet_of_the_lot(lot_id));
+		</sql>
+	</changeSet>
+
 </databaseChangeLog>
 

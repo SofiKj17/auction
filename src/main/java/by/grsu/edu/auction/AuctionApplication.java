@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 //@EnableJpaRepositories(basePackages = {"by.vodmvi.dms.documents.repositories"})
 public class AuctionApplication
 {
-
 	public static void main(String[] args)
 	{
 		SpringApplication.run(AuctionApplication.class, args);

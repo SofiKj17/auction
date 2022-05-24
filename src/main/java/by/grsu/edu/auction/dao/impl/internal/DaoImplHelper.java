@@ -2,13 +2,17 @@ package by.grsu.edu.auction.dao.impl.internal;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Id;
 import javax.persistence.NoResultException;
 
 import org.springframework.jdbc.core.ResultSetExtractor;
+
+import by.grsu.edu.auction.dao.impl.internal.annotations.DBType;
 
 class DaoImplHelper
 {
@@ -22,7 +26,12 @@ class DaoImplHelper
 					T resultEntity = clazz.newInstance();
 					for (RowInfo rowInfo : rowInfos)
 					{
-						rowInfo.getSetter().invoke(resultEntity, rs.getObject(rowInfo.getRowName(), rowInfo.getJavaType()));
+						Object value = rs.getObject(rowInfo.getRowName());
+						if (rowInfo.getJavaType().isEnum())
+						{
+							value = Enum.valueOf(rowInfo.getJavaType(), (String) value);
+						}
+						rowInfo.getSetter().invoke(resultEntity, value);
 					}
 					return resultEntity;
 				}
@@ -46,7 +55,12 @@ class DaoImplHelper
 					T resultEntity = clazz.newInstance();
 					for (RowInfo rowInfo : rowInfos)
 					{
-						rowInfo.getSetter().invoke(resultEntity, rs.getObject(rowInfo.getRowName(), rowInfo.getJavaType()));
+						Object value = rs.getObject(rowInfo.getRowName());
+						if (rowInfo.getJavaType().isEnum())
+						{
+							value = Enum.valueOf(rowInfo.getJavaType(), (String) value);
+						}
+						rowInfo.getSetter().invoke(resultEntity, value);
 					}
 					result.add(resultEntity);
 				}
@@ -57,6 +71,29 @@ class DaoImplHelper
 			}
 			return result;
 		};
+	}
+
+	static Object[] extractEntityPropertiesValues(Collection<RowInfo> rowInfos, Object entity)
+	{
+		return rowInfos.stream().map(info -> {
+			try
+			{
+				Object result = info.getGetter().invoke(entity);
+				if (info.getJavaType().isEnum())
+				{
+					result = result.toString();
+				}
+				if (info.getDbType() != null)
+				{
+					result = info.getDbType().getConstructor(info.getJavaType()).newInstance(result);
+				}
+				return result;
+			}
+			catch (Exception e)
+			{
+				throw new RuntimeException(e);
+			}
+		}).toArray();
 	}
 
 	static List<RowInfo> buildRowInfos(Class<?> clazz)
@@ -73,7 +110,17 @@ class DaoImplHelper
 					Class<?> javaType = field.getType();
 					Method getter = clazz.getMethod(buildGetterName(fieldName));
 					Method setter = clazz.getMethod(buildSetterName(fieldName), javaType);
-					rowInfos.add(new RowInfo(column.name(), field.getName(), getter, setter, javaType));
+					RowInfo rowInfo = new RowInfo(column.name(), field.getName(), getter, setter, javaType);
+					rowInfos.add(rowInfo);
+					Id id = field.getAnnotation(Id.class);
+					rowInfo.setIsId(id != null);
+					//					Enumerated enumerated = field.getAnnotation(Enumerated.class);
+					//					rowInfo.setEnumerated(enumerated != null);
+					DBType dbType = field.getAnnotation(DBType.class);
+					if (dbType != null)
+					{
+						rowInfo.setDbType(dbType.value());
+					}
 				}
 				catch (NoSuchMethodException e)
 				{
